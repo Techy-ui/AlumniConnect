@@ -98,34 +98,121 @@ def add_alumni():
         return redirect("/")
 
     return """
-    <h1>Add Alumni</h1>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Add Alumni</title>
+
+        <style>
+
+            body{
+                font-family: Arial, sans-serif;
+                background: #f4f6f9;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                min-height:100vh;
+            }
+
+            .container{
+                background:white;
+                width:500px;
+                padding:30px;
+                border-radius:15px;
+                box-shadow:0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            h1{
+                text-align:center;
+                color:#2c3e50;
+                margin-bottom:20px;
+            }
+
+            label{
+                font-weight:bold;
+                color:#333;
+            }
+
+            input{
+                width:100%;
+                padding:10px;
+                margin-top:5px;
+                margin-bottom:15px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            }
+
+            .btn{
+                width:100%;
+                background:#007bff;
+                color:white;
+                border:none;
+                padding:12px;
+                border-radius:8px;
+                font-size:16px;
+                cursor:pointer;
+            }
+
+            .btn:hover{
+                background:#0056b3;
+            }
+
+            .back{
+                display:block;
+                text-align:center;
+                margin-top:15px;
+                text-decoration:none;
+                color:#007bff;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+    <div class="container">
+
+    <h1>🎓 Add Alumni</h1>
 
     <form method="POST">
 
-        Name:<br>
-        <input type="text" name="name"><br><br>
+    <label>Full Name</label>
+    <input type="text" name="name" required>
 
-        Email:<br>
-        <input type="email" name="email"><br><br>
+    <label>Email</label>
+    <input type="email" name="email" required>
 
-        Graduation Year:<br>
-        <input type="number" name="year"><br><br>
+    <label>Graduation Year</label>
+    <input type="number" name="year" required>
 
-        Department:<br>
-        <input type="text" name="department"><br><br>
+    <label>Department</label>
+    <input type="text" name="department" required>
 
-        Company:<br>
-        <input type="text" name="company"><br><br>
+    <label>Company</label>
+    <input type="text" name="company">
 
-        Designation:<br>
-        <input type="text" name="designation"><br><br>
+    <label>Designation</label>
+    <input type="text" name="designation">
 
-        Skills:<br>
-        <input type="text" name="skills"><br><br>
+    <label>Skills</label>
+    <input type="text" name="skills">
 
-        <input type="submit" value="Add Alumni">
+    <button class="btn" type="submit">
+    Add Alumni
+    </button>
 
     </form>
+
+    <a class="back" href="/">
+    ← Back to Dashboard
+    </a>
+
+    </div>
+
+    </body>
+    </html>
     """
 
 
