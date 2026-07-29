@@ -396,3 +396,32 @@ def analytics():
         applications_chart=applications_chart,
         mentorship_chart=mentorship_chart
     )
+
+@alumni_bp.route("/alumni/<int:alumni_id>")
+def view_alumni(alumni_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT *
+        FROM alumni
+        WHERE alumni_id = %s
+    """, (alumni_id,))
+
+    person = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if not person:
+        flash("Alumni not found.", "warning")
+        return redirect("/alumni/explore_alumni")
+
+    return render_template(
+        "alumni/view_alumni.html",
+        person=person
+    )
