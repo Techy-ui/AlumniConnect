@@ -1,0 +1,138 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Respond to Applicant
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <h2 class="fw-bold mb-3">
+
+                <i class="bi bi-briefcase-fill text-success"></i>
+
+                Accept Applicant
+
+            </h2>
+
+            <p class="text-muted">
+
+                Send interview details to the applicant.
+
+            </p>
+
+            <hr>
+
+            <h5>
+
+                {{ applicant.full_name }}
+
+            </h5>
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Response Message
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="5"
+                        name="response_message"
+                        required
+                        placeholder="Congratulations! You have been shortlisted..."></textarea>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Interview Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            name="interview_date"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Interview Time
+
+                        </label>
+
+                        <input
+                            type="time"
+                            name="interview_time"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Meeting Link / Location
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="interview_link"
+                        class="form-control"
+                        placeholder="Google Meet link or office address"
+                        required>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a
+                        href="{{ request.referrer }}"
+                        class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        class="btn btn-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Accept & Send Details
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Analytics
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/analytics.css') }}">
+
+<div class="container py-4">
+
+    <h2 class="fw-bold mb-4">
+        📊 Student Analytics
+    </h2>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="analytics-card">
+                <h3>{{ jobs }}</h3>
+                <p>Jobs Available</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="analytics-card">
+                <h3>{{ applications }}</h3>
+                <p>Applications</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="analytics-card">
+                <h3>{{ mentorships }}</h3>
+                <p>Mentorship Requests</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="analytics-card">
+                <h3>{{ notifications }}</h3>
+                <p>Notifications</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chart -->
+    <div class="card mt-5 shadow-sm">
+        <div class="card-body">
+            <canvas id="analyticsChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('analyticsChart');
+
+new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: [
+            'Jobs',
+            'Applications',
+            'Mentorships',
+            'Notifications'
+        ],
+
+        datasets: [{
+            label: 'Overview',
+
+            data: [
+                {{ jobs }},
+                {{ applications }},
+                {{ mentorships }},
+                {{ notifications }}
+            ]
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+
+});
+
+</script>
+
+{% endblock %}+

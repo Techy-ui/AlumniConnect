@@ -1,0 +1,215 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/settings.css') }}">
+
+<div class="container py-4">
+
+    <h2 class="fw-bold mb-4">
+        ⚙️ Settings
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Account -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+
+                        👤 Account
+
+                    </h4>
+
+                    <p>
+                        Manage your profile information.
+                    </p>
+
+                    {% if session.get("role")=="student" %}
+
+                    <a href="{{ url_for('student.student_profile') }}"
+                       class="btn btn-primary">
+
+                        Edit Student Profile
+
+                    </a>
+
+                    {% else %}
+
+                    <a href="{{ url_for('alumni.alumni_profile') }}"
+                       class="btn btn-primary">
+
+                        Edit Alumni Profile
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Password -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+
+                        🔒 Security
+
+                    </h4>
+
+                    <p>
+
+                        Change your account password.
+
+                    </p>
+
+                    <form method="POST">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Current Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="current_password"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="new_password"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <button
+                        class="btn btn-warning w-100">
+
+                        <i class="bi bi-key-fill"></i>
+
+                        Change Password
+
+                    </button>
+
+                </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Notifications -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+
+                        🔔 Notifications
+
+                    </h4>
+
+                    <p>
+
+                        View and manage your notifications.
+
+                    </p>
+
+                    <a href="{{ url_for('notifications.notifications') }}"
+                       class="btn btn-info text-white">
+
+                        Open Notifications
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Logout -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="mb-4">
+
+                        🚪 Logout
+
+                    </h4>
+
+                    <p>
+
+                        Sign out from AlumniConnect.
+
+                    </p>
+
+                    <a href="{{ url_for('auth.logout') }}"
+                       class="btn btn-danger">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

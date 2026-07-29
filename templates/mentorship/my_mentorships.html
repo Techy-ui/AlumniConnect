@@ -1,0 +1,220 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}My Mentorships{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/my_mentorships.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h2>My Mentorship Requests</h2>
+
+    <p>Track all the mentorship requests you've sent.</p>
+
+</div>
+
+{% if requests %}
+
+<div class="table-responsive">
+
+    <table class="table mentorship-table align-middle">
+
+        <thead>
+
+            <tr>
+
+                <th>Mentor</th>
+
+                <th>Company</th>
+
+                <th>Designation</th>
+
+                <th>Subject</th>
+
+                <th>Requested On</th>
+
+                <th>Status</th>
+
+                <th>Details</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for request in requests %}
+
+            <tr>
+
+                <td>
+
+                    <strong>{{ request.full_name }}</strong>
+
+                </td>
+
+                <td>
+
+                    {{ request.company or "-" }}
+
+                </td>
+
+                <td>
+
+                    {{ request.designation or "-" }}
+
+                </td>
+
+                <td>
+
+                    {{ request.subject }}
+
+                </td>
+
+                <td>
+
+                    {{ request.request_date.strftime('%d %b %Y') }}
+
+                </td>
+
+                <td>
+
+                    {% if request.status == "Pending" %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            Pending
+
+                        </span>
+
+                    {% elif request.status == "Accepted" %}
+
+                        <span class="badge bg-success">
+
+                            Accepted
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-danger">
+
+                            Rejected
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if request.status == "Accepted" %}
+
+                        {% if request.response_message %}
+
+                        <p class="mb-2">
+
+                            <strong>Message:</strong><br>
+
+                            {{ request.response_message }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if request.meeting_date %}
+
+                        <p class="mb-1">
+
+                            <strong>Date:</strong>
+
+                            {{ request.meeting_date.strftime('%d %b %Y') }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if request.meeting_time %}
+
+                        <p class="mb-1">
+
+                            <strong>Time:</strong>
+
+                            {{ request.meeting_time.strftime('%I:%M %p') }}
+
+                        </p>
+
+                        {% endif %}
+
+                        {% if request.meeting_link %}
+
+                        <a
+                            href="{{ request.meeting_link }}"
+                            target="_blank"
+                            class="btn btn-primary btn-sm">
+
+                            <i class="bi bi-camera-video-fill"></i>
+
+                            Join Meeting
+
+                        </a>
+
+                        {% endif %}
+
+                    {% elif request.status == "Rejected" %}
+
+                        <span class="text-muted">
+
+                            No additional details.
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-muted">
+
+                            Waiting for mentor response.
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+
+    <i class="bi bi-person-x-fill"></i>
+
+    <h4>No mentorship requests yet</h4>
+
+    <p>Start by connecting with experienced alumni.</p>
+
+    <a
+        href="{{ url_for('mentorship.browse_mentors') }}"
+        class="btn btn-primary">
+
+        Browse Mentors
+
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

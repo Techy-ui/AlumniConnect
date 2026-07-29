@@ -1,0 +1,83 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Request Mentorship{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/request_mentorship.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="request-container">
+
+    <div class="request-card">
+
+        <h2>
+            <i class="bi bi-send-fill"></i>
+            Request Mentorship
+        </h2>
+
+        <p class="subtitle">
+            Tell the mentor what you'd like help with.
+        </p>
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Subject
+                </label>
+
+                <input
+                    type="text"
+                    name="subject"
+                    class="form-control"
+                    placeholder="Example: Career Guidance in AI"
+                    required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Message
+                </label>
+
+                <textarea
+                    name="message"
+                    rows="7"
+                    class="form-control"
+                    placeholder="Introduce yourself and explain what kind of mentorship you are looking for..."
+                    required></textarea>
+
+            </div>
+
+            <div class="button-group">
+
+                <a href="{{ url_for('mentorship.browse_mentors') }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+                <button
+                    class="btn btn-success"
+                    type="submit">
+
+                    <i class="bi bi-send-fill"></i>
+
+                    Send Request
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

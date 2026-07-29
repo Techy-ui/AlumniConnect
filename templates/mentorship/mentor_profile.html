@@ -1,0 +1,124 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Mentor Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mentor_profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="mentor-profile">
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+
+                <i class="bi bi-person-circle"></i>
+
+            </div>
+
+            <div class="profile-details">
+
+                <h2>{{ mentor.full_name }}</h2>
+
+                <h5>{{ mentor.designation or "Professional" }}</h5>
+
+                <p>
+                    <i class="bi bi-building"></i>
+                    {{ mentor.company or "Company not specified" }}
+                </p>
+
+                <p>
+                    <i class="bi bi-geo-alt"></i>
+                    {{ mentor.location or "Location not specified" }}
+                </p>
+
+                <p>
+                    <i class="bi bi-award"></i>
+                    {{ mentor.experience or 0 }} Years Experience
+                </p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="info-section">
+
+            <h4>Biography</h4>
+
+            <p>
+                {{ mentor.bio or "This mentor hasn't added a biography yet." }}
+            </p>
+
+        </div>
+
+        <div class="info-section">
+
+            <h4>Skills</h4>
+
+            <div class="skills-box">
+                {{ mentor.skills or "No skills added." }}
+            </div>
+
+        </div>
+
+        <div class="info-section">
+
+            <h4>Education</h4>
+
+            <p>
+                Department :
+                <strong>{{ mentor.department or "-" }}</strong>
+            </p>
+
+            <p>
+                Graduation Year :
+                <strong>{{ mentor.graduation_year or "-" }}</strong>
+            </p>
+
+        </div>
+
+        <div class="social-links">
+
+            {% if mentor.linkedin %}
+            <a href="{{ mentor.linkedin }}" target="_blank" class="btn btn-primary">
+                <i class="bi bi-linkedin"></i>
+                LinkedIn
+            </a>
+            {% endif %}
+
+            {% if mentor.github %}
+            <a href="{{ mentor.github }}" target="_blank" class="btn btn-dark">
+                <i class="bi bi-github"></i>
+                GitHub
+            </a>
+            {% endif %}
+
+        </div>
+
+        {% if session.get("role") == "student" %}
+        <div class="request-btn">
+
+            <a
+                href="{{ url_for('mentorship.request_mentorship', alumni_id=mentor.alumni_id) }}"
+                class="btn btn-success btn-lg">
+
+                <i class="bi bi-send-fill"></i>
+
+                Request Mentorship
+
+            </a>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

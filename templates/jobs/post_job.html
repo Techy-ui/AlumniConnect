@@ -1,0 +1,237 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Post Job
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/post_job.css') }}">
+
+<div class="container-fluid fade-up">
+
+    <!-- Hero -->
+
+    <div class="card hero-card mb-4">
+
+        <div class="card-body">
+
+            <h2 class="fw-bold">
+
+                💼 Post a New Opportunity
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Help students discover internships and full-time opportunities by creating a professional job listing.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h4 class="section-title">
+
+                    Job Information
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Company Name
+
+                        </label>
+
+                        <input
+                        type="text"
+                        name="company"
+                        class="form-control"
+                        placeholder="Google, Microsoft..."
+                        required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Job Title
+
+                        </label>
+
+                        <input
+                        type="text"
+                        name="job_title"
+                        class="form-control"
+                        placeholder="Software Engineer Intern"
+                        required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Location
+
+                        </label>
+
+                        <input
+                        type="text"
+                        name="location"
+                        class="form-control"
+                        placeholder="Bangalore">
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Job Type
+
+                        </label>
+
+                        <select
+                        name="job_type"
+                        class="form-select">
+
+                            <option>Full Time</option>
+                            <option>Internship</option>
+                            <option>Part Time</option>
+                            <option>Remote</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Salary
+
+                        </label>
+
+                        <input
+                        type="text"
+                        name="salary"
+                        class="form-control"
+                        placeholder="₹8 LPA">
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Application Deadline
+
+                        </label>
+
+                        <input
+                        type="date"
+                        name="deadline"
+                        class="form-control"
+                        required>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card mt-4">
+
+            <div class="card-body">
+
+                <h4 class="section-title">
+
+                    Skills & Description
+
+                </h4>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Required Skills
+
+                    </label>
+
+                    <input
+                    type="text"
+                    name="skills_required"
+                    class="form-control"
+                    placeholder="Python, Flask, PostgreSQL, Git">
+
+                    <small class="text-muted">
+
+                        Separate each skill with a comma.
+
+                    </small>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Job Description
+
+                    </label>
+
+                    <textarea
+                    name="description"
+                    rows="8"
+                    class="form-control"
+                    placeholder="Describe responsibilities, qualifications, and expectations..."></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-end mt-4">
+
+            <a
+            href="{{ url_for('jobs.my_jobs') }}"
+            class="btn btn-outline-secondary btn-lg me-2">
+
+                Cancel
+
+            </a>
+
+            <button
+            type="submit"
+            class="btn btn-primary btn-lg">
+
+                <i class="bi bi-send-fill"></i>
+
+                Publish Job
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

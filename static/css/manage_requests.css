@@ -1,0 +1,105 @@
+.page-header{
+
+    margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+    font-size:30px;
+    font-weight:700;
+
+}
+
+.page-header p{
+
+    color:#6b7280;
+
+}
+
+.request-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+    gap:25px;
+
+}
+
+.request-card{
+
+    background:white;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.student-header{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+}
+
+.avatar{
+
+    width:70px;
+    height:70px;
+
+}
+
+.avatar img{
+
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+
+}
+
+.avatar i{
+
+    font-size:70px;
+    color:#2563eb;
+
+}
+
+.request-card h6{
+
+    margin-top:20px;
+    font-weight:600;
+    color:#2563eb;
+
+}
+
+.actions{
+
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+
+}
+
+.actions .btn{
+
+    flex:1;
+
+}
+
+.empty-state{
+
+    text-align:center;
+    background:white;
+    padding:60px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.empty-state i{
+
+    font-size:80px;
+    color:#2563eb;
+
+}

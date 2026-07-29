@@ -1,0 +1,35 @@
+.card{
+
+    border-radius:18px;
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+}
+
+.card h4{
+
+    font-weight:700;
+
+}
+
+.card p{
+
+    color:#666;
+
+    min-height:45px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}

@@ -1,0 +1,78 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Request Mentorship
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="row justify-content-center">
+
+<div class="col-md-8">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h3 class="mb-4">
+
+🤝 Request Mentorship
+
+</h3>
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Subject
+
+</label>
+
+<input
+type="text"
+class="form-control"
+name="subject"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Message
+
+</label>
+
+<textarea
+class="form-control"
+rows="6"
+name="message"
+required></textarea>
+
+</div>
+
+<button
+class="btn btn-success">
+
+Send Request
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

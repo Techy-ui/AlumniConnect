@@ -1,0 +1,205 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+{{ person.full_name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+        <!-- Header -->
+        <div class="bg-primary text-white p-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-3 text-center">
+
+                    {% if person.profile_photo %}
+
+                    <img src="{{ url_for('static', filename='uploads/profile_photos/' + person.profile_photo) }}"
+                         class="rounded-circle border border-4 border-white shadow"
+                         style="width:170px;height:170px;object-fit:cover;">
+
+                    {% else %}
+
+                    <div class="bg-white rounded-circle d-flex justify-content-center align-items-center mx-auto"
+                         style="width:170px;height:170px;">
+
+                        <i class="bi bi-person-fill text-primary"
+                           style="font-size:90px;"></i>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-9">
+
+                    <h2 class="fw-bold mb-2">
+                        {{ person.full_name }}
+                    </h2>
+
+                    <h5 class="mb-2">
+                        {{ person.designation }}
+                    </h5>
+
+                    <p class="mb-3">
+                        <i class="bi bi-building"></i>
+                        {{ person.company }}
+                    </p>
+
+                    <span class="badge bg-light text-dark fs-6 px-3 py-2">
+                        {{ person.experience }} Years Experience
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Body -->
+        <div class="card-body p-5">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="card h-100 border-0 bg-light">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold mb-3">
+                                Professional Information
+                            </h5>
+
+                            <p><strong>Department:</strong><br>{{ person.department }}</p>
+
+                            <p><strong>Graduation Year:</strong><br>{{ person.graduation_year }}</p>
+
+                            <p><strong>Company:</strong><br>{{ person.company }}</p>
+
+                            <p><strong>Location:</strong><br>{{ person.location }}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="card h-100 border-0 bg-light">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold mb-3">
+                                Skills
+                            </h5>
+
+                            {% if person.skills %}
+
+                                {% for skill in person.skills.split(',') %}
+
+                                <span class="badge bg-primary me-2 mb-2 px-3 py-2">
+
+                                    {{ skill.strip() }}
+
+                                </span>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <p class="text-muted">
+                                    No skills added.
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- About -->
+
+            <div class="card border-0 bg-light mt-4">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+
+                        About
+
+                    </h5>
+
+                    <p class="mb-0">
+
+                        {{ person.bio or "No bio available." }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Links -->
+
+            <div class="card border-0 bg-light mt-4">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+
+                        Professional Links
+
+                    </h5>
+
+                    {% if person.linkedin %}
+
+                    <a href="{{ person.linkedin }}"
+                       target="_blank"
+                       class="btn btn-primary me-2 mb-2">
+
+                        <i class="bi bi-linkedin"></i>
+
+                        LinkedIn
+
+                    </a>
+
+                    {% endif %}
+
+                    {% if person.github %}
+
+                    <a href="{{ person.github }}"
+                       target="_blank"
+                       class="btn btn-dark mb-2">
+
+                        <i class="bi bi-github"></i>
+
+                        GitHub
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,169 @@
+/* Animation */
+
+.fade-up{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* Cards */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+
+}
+
+.card-body{
+
+    padding:30px;
+
+}
+
+/* Hero */
+
+.hero-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.hero-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:6px;
+
+    background:linear-gradient(90deg,#4f46e5,#6366f1);
+
+}
+
+/* Titles */
+
+.company-name{
+
+    color:#6b7280;
+
+    font-size:16px;
+
+    margin-bottom:6px;
+
+}
+
+.job-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+}
+
+/* Info */
+
+.info-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#4b5563;
+
+}
+
+.info-box i{
+
+    color:#4f46e5;
+
+    font-size:18px;
+
+}
+
+/* Buttons */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+}
+
+.btn-primary{
+
+    background:#4f46e5;
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:#4338ca;
+
+}
+
+/* Empty State */
+
+.empty-card i{
+
+    opacity:.5;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .card-body{
+
+        padding:22px;
+
+    }
+
+    .hero-card .btn{
+
+        width:100%;
+
+        margin-top:20px;
+
+    }
+
+}

@@ -1,0 +1,668 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Alumni Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid fade-up">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                👋 Welcome back, {{ alumni.full_name }}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ alumni.designation }} • {{ alumni.company }}
+
+            </p>
+
+        </div>
+
+        <a href="/alumni/alumni_profile"
+           class="btn btn-light shadow-sm border">
+
+            <i class="bi bi-person-circle"></i>
+
+            My Profile
+
+        </a>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-3 col-md-6 mb-3">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="stat-title">
+
+                                Jobs Posted
+
+                            </div>
+
+                            <div class="stat-number">
+
+                                {{ total_jobs }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-briefcase-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="stat-title">
+
+                                Applications
+
+                            </div>
+
+                            <div class="stat-number">
+
+                                {{ total_applications|default(0) }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-file-earmark-text-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="stat-title">
+
+                                Mentorship Requests
+
+                            </div>
+
+                            <div class="stat-number">
+
+                                {{ total_requests }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-3">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <div class="stat-title">
+
+                                Profile Score
+
+                            </div>
+
+                            <div class="stat-number">
+
+                                90%
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-star-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Left Column -->
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    {% if alumni.profile_photo %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/profile_photos/' + alumni.profile_photo) }}"
+                        class="avatar-lg border border-4 border-primary shadow">
+
+                    {% else %}
+
+                    <div
+                        class="avatar-lg bg-light border d-flex align-items-center justify-content-center mx-auto">
+
+                        <i class="bi bi-person-fill text-primary"
+                           style="font-size:60px;"></i>
+
+                    </div>
+
+                    {% endif %}
+
+                    <h4 class="mt-3 fw-bold">
+
+                        {{ alumni.full_name }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        {{ alumni.designation }}
+
+                    </p>
+
+                    <span class="badge bg-primary px-3 py-2">
+
+                        {{ alumni.company }}
+
+                    </span>
+
+                    <hr>
+
+                    <div class="text-start">
+
+                        <p>
+
+                            <i class="bi bi-building"></i>
+
+                            <strong>Company:</strong>
+
+                            {{ alumni.company }}
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-briefcase"></i>
+
+                            <strong>Designation:</strong>
+
+                            {{ alumni.designation }}
+
+                        </p>
+
+                        {% if alumni.department %}
+
+                        <p>
+
+                            <i class="bi bi-mortarboard"></i>
+
+                            <strong>Department:</strong>
+
+                            {{ alumni.department }}
+
+                        </p>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="d-grid mt-3">
+
+                        <a href="/alumni/alumni_profile"
+                           class="btn btn-primary">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            Edit Profile
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+
+            <div class="card mt-4">
+
+                <div class="card-body">
+
+                    <h5 class="mb-3">
+
+                        ⚡ Quick Actions
+
+                    </h5>
+
+                    <div class="d-grid gap-2">
+
+                        <a href="/post_job"
+                           class="btn btn-primary">
+
+                            <i class="bi bi-plus-circle"></i>
+
+                            Post New Job
+
+                        </a>
+
+                        <a href="/my_jobs"
+                           class="btn btn-success">
+
+                            <i class="bi bi-briefcase"></i>
+
+                            Manage Jobs
+
+                        </a>
+
+                        <a href="/manage_requests"
+                           class="btn btn-info text-white">
+
+                            <i class="bi bi-people"></i>
+
+                            Mentorship Requests
+
+                        </a>
+
+                        <a href="/alumni/explore_students"
+                           class="btn btn-warning">
+
+                            <i class="bi bi-search"></i>
+
+                            Browse Students
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Column -->
+
+        <div class="col-lg-8">
+                        <!-- Recent Jobs -->
+
+            <div class="card mb-4">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+                        💼 Recent Job Posts
+                    </h5>
+
+                    <a href="/my_jobs"
+                       class="btn btn-sm btn-outline-primary">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if jobs %}
+
+                        {% for job in jobs[:5] %}
+
+                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+
+                                    {{ job.title }}
+
+                                </h6>
+
+                                <small class="text-muted">
+
+                                    {{ job.company }}
+
+                                    {% if job.location %}
+                                    • {{ job.location }}
+                                    {% endif %}
+
+                                </small>
+
+                            </div>
+
+                            <div class="text-end">
+
+                                <a href="/job/{{ job.id }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    View
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="text-center py-5">
+
+                            <i class="bi bi-briefcase display-3 text-muted"></i>
+
+                            <h5 class="mt-3">
+
+                                No Jobs Posted Yet
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                Start helping students by posting your first job.
+
+                            </p>
+
+                            <a href="/post_job"
+                               class="btn btn-primary">
+
+                                Post Job
+
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Mentorship Requests -->
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        🤝 Recent Mentorship Requests
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if mentorship_requests %}
+
+                        {% for request in mentorship_requests[:5] %}
+
+                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+
+                                    {{ request.student_name }}
+
+                                </h6>
+
+                                <small class="text-muted">
+
+                                    {{ request.department }}
+
+                                </small>
+
+                            </div>
+
+                            <div>
+
+                                <a href="/accept_request/{{ request.id }}"
+                                   class="btn btn-success btn-sm">
+
+                                    Accept
+
+                                </a>
+
+                                <a href="/reject_request/{{ request.id }}"
+                                   class="btn btn-outline-danger btn-sm">
+
+                                    Reject
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="text-center py-4">
+
+                            <i class="bi bi-people display-4 text-muted"></i>
+
+                            <p class="mt-3 text-muted">
+
+                                No mentorship requests at the moment.
+
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Analytics -->
+
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="card h-100">
+
+                        <div class="card-header">
+
+                            <h5 class="mb-0">
+
+                                📈 Activity Overview
+
+                            </h5>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <strong>Jobs Posted</strong>
+
+                                <div class="progress mt-2">
+
+                                    <div class="progress-bar"
+                                         style="width:75%">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <strong>Applications Received</strong>
+
+                                <div class="progress mt-2">
+
+                                    <div class="progress-bar bg-success"
+                                         style="width:60%">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <strong>Mentorship Activity</strong>
+
+                                <div class="progress mt-2">
+
+                                    <div class="progress-bar bg-info"
+                                         style="width:45%">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 mb-4">
+
+                    <div class="card h-100">
+
+                        <div class="card-header">
+
+                            <h5 class="mb-0">
+
+                                🚀 Platform Tips
+
+                            </h5>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <ul class="list-group list-group-flush">
+
+                                <li class="list-group-item">
+
+                                    ✔ Complete your profile.
+
+                                </li>
+
+                                <li class="list-group-item">
+
+                                    ✔ Post internships regularly.
+
+                                </li>
+
+                                <li class="list-group-item">
+
+                                    ✔ Accept mentorship requests.
+
+                                </li>
+
+                                <li class="list-group-item">
+
+                                    ✔ Stay active to help students.
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Respond to Mentorship Request
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <h2 class="fw-bold mb-3">
+
+                <i class="bi bi-person-check-fill text-success"></i>
+
+                Accept Mentorship Request
+
+            </h2>
+
+            <p class="text-muted">
+
+                Send the student a welcome message and meeting details.
+
+            </p>
+
+            <hr>
+
+            <div class="mb-4">
+
+                <h5 class="fw-bold">
+
+                    Student
+
+                </h5>
+
+                <p class="mb-1">
+
+                    {{ mentorship.full_name }}
+
+                </p>
+
+                <p class="text-muted">
+
+                    {{ mentorship.subject }}
+
+                </p>
+
+            </div>
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Welcome Message
+
+                    </label>
+
+                    <textarea
+                        name="response_message"
+                        class="form-control"
+                        rows="5"
+                        placeholder="Write a message for the student..."
+                        required></textarea>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Meeting Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            name="meeting_date"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Meeting Time
+
+                        </label>
+
+                        <input
+                            type="time"
+                            name="meeting_time"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Meeting Link
+
+                    </label>
+
+                    <input
+                        type="url"
+                        name="meeting_link"
+                        class="form-control"
+                        placeholder="https://meet.google.com/..."
+                        required>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a
+                        href="{{ url_for('mentorship.manage_requests') }}"
+                        class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Accept & Send Details
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+.page-header{
+
+    margin-bottom:30px;
+
+}
+
+.page-header h2{
+
+    font-size:30px;
+    font-weight:700;
+
+}
+
+.page-header p{
+
+    color:#6b7280;
+
+}
+
+.mentorship-table{
+
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.mentorship-table thead{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+.mentorship-table th{
+
+    padding:18px;
+
+}
+
+.mentorship-table td{
+
+    padding:18px;
+
+}
+
+.empty-state{
+
+    background:white;
+    padding:60px;
+    text-align:center;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.empty-state i{
+
+    font-size:70px;
+    color:#2563eb;
+
+}
+
+.empty-state h4{
+
+    margin-top:20px;
+
+}
+
+.empty-state p{
+
+    color:#6b7280;
+    margin-bottom:25px;
+
+}

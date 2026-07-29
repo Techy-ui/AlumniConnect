@@ -1,0 +1,94 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Browse Mentors{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>Browse Mentors</h2>
+    <p>Connect with experienced alumni and grow your career.</p>
+</div>
+
+<div class="mentor-grid">
+
+    {% for mentor in mentors %}
+
+    <div class="mentor-card">
+
+        <div class="mentor-avatar">
+
+            <i class="bi bi-person-circle"></i>
+
+        </div>
+
+        <h3>{{ mentor.full_name }}</h3>
+
+        <p class="designation">
+
+            {{ mentor.designation or "Professional" }}
+
+        </p>
+
+        <div class="mentor-info">
+
+            <p>
+
+                <i class="bi bi-building"></i>
+
+                {{ mentor.company or "Not Specified" }}
+
+            </p>
+
+            <p>
+
+                <i class="bi bi-geo-alt"></i>
+
+                {{ mentor.location or "Unknown" }}
+
+            </p>
+
+            <p>
+
+                <i class="bi bi-briefcase"></i>
+
+                {{ mentor.experience or 0 }} Years Experience
+
+            </p>
+
+        </div>
+
+        <div class="skills">
+
+            {{ mentor.skills or "Skills not added" }}
+
+        </div>
+
+        <div class="mentor-actions">
+
+            <a
+                href="{{ url_for('mentorship.mentor_profile', alumni_id=mentor.alumni_id) }}"
+                class="btn btn-primary"
+            >
+                View Profile
+            </a>
+
+            <a
+                href="{{ url_for('mentorship.request_mentorship', alumni_id=mentor.alumni_id) }}"
+                class="btn btn-success"
+            >
+                Request
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

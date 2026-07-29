@@ -1,0 +1,228 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}AlumniConnect | Home{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero bg-primary text-white shadow-sm mb-4 p-4 rounded">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+            <h2 class="fw-bold">
+                🎓 AlumniConnect
+            </h2>
+
+            <p class="mb-0">
+                Connecting students with alumni for mentorship,
+                networking, career guidance and job opportunities.
+            </p>
+
+            <div class="mt-3">
+
+                <a href="/alumni/add_alumni"
+                   class="btn btn-light btn-sm me-2">
+
+                    Add Alumni
+
+                </a>
+
+                <a href="/students/student_register"
+                   class="btn btn-outline-light btn-sm">
+
+                    Register Student
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 text-center d-none d-lg-block">
+
+            <i class="bi bi-people-fill"
+               style="font-size:75px;opacity:.25;"></i>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="row text-center mb-4">
+
+    {% for label, count, icon, color in [
+        ('Alumni', alumni_count, 'people', 'primary'),
+        ('Students', student_count, 'mortarboard', 'success'),
+        ('Mentorships', 0, 'chat-square-heart', 'danger'),
+        ('Jobs', 0, 'briefcase', 'warning')
+    ] %}
+
+    <div class="col-6 col-md-3 mb-3">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-body">
+
+                <i class="bi bi-{{ icon }}-fill
+                          text-{{ color }}
+                          fs-3"></i>
+
+                <div class="small text-muted mt-2">
+
+                    {{ label }}
+
+                </div>
+
+                <h4 class="fw-bold">
+
+                    {{ count }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- Search -->
+
+<div class="card shadow-sm border-0 mb-5">
+
+    <div class="card-body">
+
+        <form action="/search" method="GET">
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="query"
+                    placeholder="Search alumni by name, company, department or skills..."
+                    required>
+
+                <button class="btn btn-primary">
+
+                    <i class="bi bi-search"></i>
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Latest Alumni -->
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+
+    <h4 class="fw-bold">
+
+        <i class="bi bi-stars text-warning"></i>
+
+        Latest Alumni
+
+    </h4>
+
+</div>
+
+<div class="row">
+
+{% if alumni %}
+
+    {% for alumnus in alumni %}
+
+    <div class="col-md-6 col-lg-4 mb-4">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-person-circle
+                          text-primary"
+                   style="font-size:70px;"></i>
+
+                <h5 class="fw-bold mt-3">
+
+                    {{ alumnus.full_name }}
+
+                </h5>
+
+                <p class="text-primary mb-1">
+
+                    <i class="bi bi-briefcase-fill"></i>
+
+                    {{ alumnus.designation if alumnus.designation else "Designation not added" }}
+
+                </p>
+
+                <p class="text-muted mb-2">
+
+                    <i class="bi bi-building"></i>
+
+                    {{ alumnus.company if alumnus.company else "Company not added" }}
+
+                </p>
+
+                <hr>
+
+                <div class="small text-secondary">
+
+                    <div class="mb-1">
+
+                        <i class="bi bi-mortarboard-fill"></i>
+
+                        {{ alumnus.department }}
+
+                    </div>
+
+                    <div>
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        Class of {{ alumnus.graduation_year }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+
+            No Alumni Registered Yet.
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

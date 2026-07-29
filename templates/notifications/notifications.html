@@ -1,0 +1,109 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/notifications.css') }}">
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+            🔔 Notifications
+        </h2>
+
+        {% if notifications %}
+
+        <a href="{{ url_for('notifications.read_all_notifications') }}"
+           class="btn btn-primary">
+
+            Mark All as Read
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+        <div class="notification-card {% if not notification.is_read %}unread{% endif %}">
+
+            <div class="notification-content">
+
+                <h5>
+
+                    {{ notification.title }}
+
+                </h5>
+
+                <p>
+
+                    {{ notification.message }}
+
+                </p>
+
+                <small class="text-muted">
+
+                    {{ notification.created_at.strftime("%d %b %Y, %I:%M %p") }}
+
+                </small>
+
+            </div>
+
+            <div class="notification-actions">
+
+                {% if not notification.is_read %}
+
+                <a href="{{ url_for('notifications.read_notification',
+                                    notification_id=notification.notification_id) }}"
+                   class="btn btn-success btn-sm">
+
+                    Mark Read
+
+                </a>
+
+                {% endif %}
+
+                <a href="{{ url_for('notifications.remove_notification',
+                                    notification_id=notification.notification_id) }}"
+                   class="btn btn-outline-danger btn-sm">
+
+                    Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <i class="bi bi-bell-slash"></i>
+
+            <h3>No Notifications</h3>
+
+            <p>
+
+                You're all caught up!
+
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

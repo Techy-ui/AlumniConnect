@@ -1,17 +1,79 @@
-from flask import Flask, request, redirect
+from flask import Flask, render_template, request, redirect, flash, session
 from db import get_connection
+from werkzeug.security import generate_password_hash, check_password_hash
+from notification import (
+    create_notification,
+    get_notifications,
+    get_unread_count,
+    mark_as_read,
+    mark_all_as_read,
+    delete_notification
+)
+import os
+from routes.auth import auth_bp
+from routes.student import student_bp
+from routes.alumni import alumni_bp
+from routes.mentorship import mentorship_bp
+from routes.jobs import jobs_bp
+from routes.notifications import notifications_bp
+from routes.settings import settings_bp
 
-app = Flask(__name__)
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+app = Flask(
+    __name__,
+    template_folder=str(BASE_DIR / "templates"),
+    static_folder=str(BASE_DIR / "static")
+)
+
+@app.context_processor
+def inject_notification_count():
+
+    if "user_id" not in session:
+        return {"unread_count": 0}
+
+    return {
+        "unread_count": get_unread_count(
+            session["role"],
+            session["user_id"]
+        )
+    }
+
+app.config["UPLOAD_FOLDER"] = "static/uploads/resumes"
+app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024   # 10 MB
+
+app.register_blueprint(auth_bp)
+app.register_blueprint(student_bp)
+app.register_blueprint(alumni_bp)
+app.register_blueprint(mentorship_bp)
+app.register_blueprint(jobs_bp)
+app.register_blueprint(notifications_bp)
+app.register_blueprint(settings_bp)
+
+
+app.secret_key = "alumniconnect_secret_key"
 
 @app.route("/")
 def home():
+
     conn = get_connection()
     cur = conn.cursor()
 
+    cur.execute("SELECT COUNT(*) AS total FROM alumni")
+    alumni_count = cur.fetchone()["total"]
+
+    cur.execute("SELECT COUNT(*) AS total FROM students")
+    student_count = cur.fetchone()["total"]
+
     cur.execute("""
-        SELECT full_name, company, designation
-        FROM alumni
-        ORDER BY alumni_id
+    SELECT alumni_id,
+        full_name,
+        company,
+        designation
+    FROM alumni
+    ORDER BY alumni_id DESC
     """)
 
     alumni = cur.fetchall()
@@ -19,202 +81,119 @@ def home():
     cur.close()
     conn.close()
 
-    html = """
-    <html>
-    <head>
-        <title>AlumniConnect</title>
-        <style>
-            body{
-                font-family: Arial;
-                margin:40px;
-                background:#f4f4f4;
-            }
-            .card{
-                background:white;
-                padding:15px;
-                margin:10px;
-                border-radius:10px;
-            }
-            a{
-                text-decoration:none;
-                background:#007bff;
-                color:white;
-                padding:10px;
-                border-radius:5px;
-            }
-        </style>
-    </head>
-    <body>
-
-    <h1>🎓 AlumniConnect</h1>
-
-    <a href="/add_alumni">Add Alumni</a>
-
-    <hr>
-    """
-
-    for name, company, designation in alumni:
-        html += f"""
-        <div class='card'>
-            <h3>{name}</h3>
-            <p>Company: {company}</p>
-            <p>Role: {designation}</p>
-        </div>
-        """
-
-    html += "</body></html>"
-
-    return html
+    return render_template(
+        "pages/home.html",
+        alumni=alumni,
+        alumni_count=alumni_count,
+        student_count=student_count
+    )
 
 
-@app.route("/add_alumni", methods=["GET", "POST"])
-def add_alumni():
 
-    if request.method == "POST":
 
-        name = request.form["name"]
-        email = request.form["email"]
-        year = request.form["year"]
-        department = request.form["department"]
-        company = request.form["company"]
-        designation = request.form["designation"]
-        skills = request.form["skills"]
 
-        conn = get_connection()
-        cur = conn.cursor()
+@app.route("/search")
+def search():
 
-        cur.execute("""
-            INSERT INTO alumni
-            (full_name,email,graduation_year,department,company,designation,skills)
-            VALUES (%s,%s,%s,%s,%s,%s,%s)
-        """,
-        (name,email,year,department,company,designation,skills))
+    query = request.args.get("query", "")
 
-        conn.commit()
+    conn = get_connection()
+    cur = conn.cursor()
 
-        cur.close()
-        conn.close()
+    cur.execute("""
 
-        return redirect("/")
+        SELECT
+            alumni_id,
+            full_name,
+            company,
+            designation,
+            department,
+            skills
 
-    return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Add Alumni</title>
+        FROM alumni
 
-        <style>
+        WHERE
 
-            body{
-                font-family: Arial, sans-serif;
-                background: #f4f6f9;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                min-height:100vh;
-            }
+            LOWER(full_name) LIKE LOWER(%s)
 
-            .container{
-                background:white;
-                width:500px;
-                padding:30px;
-                border-radius:15px;
-                box-shadow:0 5px 15px rgba(0,0,0,0.2);
-            }
+            OR LOWER(company) LIKE LOWER(%s)
 
-            h1{
-                text-align:center;
-                color:#2c3e50;
-                margin-bottom:20px;
-            }
+            OR LOWER(department) LIKE LOWER(%s)
 
-            label{
-                font-weight:bold;
-                color:#333;
-            }
+            OR LOWER(skills) LIKE LOWER(%s)
 
-            input{
-                width:100%;
-                padding:10px;
-                margin-top:5px;
-                margin-bottom:15px;
-                border:1px solid #ccc;
-                border-radius:8px;
-                box-sizing:border-box;
-            }
+        ORDER BY full_name
 
-            .btn{
-                width:100%;
-                background:#007bff;
-                color:white;
-                border:none;
-                padding:12px;
-                border-radius:8px;
-                font-size:16px;
-                cursor:pointer;
-            }
+    """,
 
-            .btn:hover{
-                background:#0056b3;
-            }
+    (
+        f"%{query}%",
+        f"%{query}%",
+        f"%{query}%",
+        f"%{query}%"
+    ))
 
-            .back{
-                display:block;
-                text-align:center;
-                margin-top:15px;
-                text-decoration:none;
-                color:#007bff;
-            }
+    results = cur.fetchall()
 
-        </style>
+    cur.close()
+    conn.close()
 
-    </head>
+    return render_template(
+        "pages/search.html",
+        query=query,
+        results=results
+    )
 
-    <body>
 
-    <div class="container">
+@app.route("/logout")
+def logout():
 
-    <h1>🎓 Add Alumni</h1>
+    session.clear()
 
-    <form method="POST">
+    flash("You have been logged out successfully.", "success")
 
-    <label>Full Name</label>
-    <input type="text" name="name" required>
+    return redirect("/login")
 
-    <label>Email</label>
-    <input type="email" name="email" required>
 
-    <label>Graduation Year</label>
-    <input type="number" name="year" required>
 
-    <label>Department</label>
-    <input type="text" name="department" required>
 
-    <label>Company</label>
-    <input type="text" name="company">
+@app.route("/notifications")
+def notifications():
 
-    <label>Designation</label>
-    <input type="text" name="designation">
+    if "user_id" not in session:
+        return redirect("/login")
 
-    <label>Skills</label>
-    <input type="text" name="skills">
+    conn = get_connection()
+    cur = conn.cursor()
 
-    <button class="btn" type="submit">
-    Add Alumni
-    </button>
+    cur.execute("""
 
-    </form>
+        SELECT *
 
-    <a class="back" href="/">
-    ← Back to Dashboard
-    </a>
+        FROM notifications
 
-    </div>
+        WHERE user_role=%s
 
-    </body>
-    </html>
-    """
+        AND user_id=%s
 
+        ORDER BY created_at DESC
+
+    """,
+    (
+        session["role"],
+        session["user_id"]
+    ))
+
+    notifications = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "notifications.html",
+        notifications=notifications
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
+

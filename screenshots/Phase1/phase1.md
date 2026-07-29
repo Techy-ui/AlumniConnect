@@ -1,4 +1,4 @@
-# AlumniConnect - Progress Update
+ # AlumniConnect - Progress Update
 
 ## Phase 1: Database Setup & Basic Web Integration ✅
 

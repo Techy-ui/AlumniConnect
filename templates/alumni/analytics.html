@@ -1,0 +1,296 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Alumni Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid fade-up">
+
+    <!-- Hero Section -->
+
+    <div class="card mb-4 shadow-sm border-0">
+
+        <div class="card-body">
+
+            <h2 class="fw-bold">
+                📊 Alumni Analytics
+            </h2>
+
+            <p class="text-muted mb-0">
+                Monitor your mentorship requests, job postings and student engagement.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics Cards -->
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Jobs Posted
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+                        {{ total_jobs }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Applications
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{ total_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Mentorship Requests
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+                        {{ total_requests }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Accepted Applicants
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+                        {{ accepted }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="row">
+
+        <div class="col-lg-7 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-4">
+                        Applications per Job
+                    </h5>
+
+                    <div style="height: 250px;">
+                        <canvas id="applicationsChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-5 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-4">
+                        Mentorship Status
+                    </h5>
+
+                    <div style="height: 250px;">
+                        <canvas id="mentorshipChart"></canvas>
+                    </div>
+
+                </div>
+
+
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+const appLabels = [
+    {% for item in applications_chart %}
+        "{{ item.job_title }}",
+    {% endfor %}
+];
+
+const appData = [
+    {% for item in applications_chart %}
+        {{ item.applicants }},
+    {% endfor %}
+];
+
+const applicationsChart = document.getElementById("applicationsChart");
+
+if (applicationsChart) {
+
+    new Chart(applicationsChart, {
+
+        type: "bar",
+
+        data: {
+
+            labels: appLabels,
+
+            datasets: [
+
+                {
+
+                    label: "Applications",
+
+                    data: appData,
+
+                    backgroundColor: "#0d6efd",
+
+                    borderRadius: 8
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+const mentorLabels = [
+    {% for item in mentorship_chart %}
+        "{{ item.status }}",
+    {% endfor %}
+];
+
+const mentorData = [
+    {% for item in mentorship_chart %}
+        {{ item.total }},
+    {% endfor %}
+];
+
+const mentorshipChart = document.getElementById("mentorshipChart");
+
+if (mentorshipChart) {
+
+    new Chart(mentorshipChart, {
+
+        type: "pie",
+
+        data: {
+
+            labels: mentorLabels,
+
+            datasets: [
+
+                {
+
+                    data: mentorData,
+
+                    backgroundColor: [
+
+                        "#ffc107",
+
+                        "#198754",
+
+                        "#dc3545"
+
+                    ]
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false
+
+        }
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

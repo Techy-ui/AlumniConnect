@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 def get_connection():
     return psycopg2.connect(
@@ -6,5 +7,6 @@ def get_connection():
         user="postgres",
         password="Akash@1612",
         host="localhost",
-        port="5432"
+        port="5432",
+        cursor_factory=RealDictCursor
     )

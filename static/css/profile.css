@@ -1,0 +1,253 @@
+/* ===========================
+   PROFILE PAGE
+=========================== */
+
+.fade-up{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    transition:.3s;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 14px 35px rgba(0,0,0,.12);
+}
+
+.card-body{
+    padding:28px;
+}
+
+/* ===========================
+   Profile Image
+=========================== */
+
+.avatar-lg{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:auto;
+    display:block;
+}
+
+.avatar-lg.border{
+    border-width:5px !important;
+}
+
+/* ===========================
+   Headings
+=========================== */
+
+.section-title{
+    font-weight:700;
+    color:#1e293b;
+}
+
+.section-title i{
+    color:#4f46e5;
+    margin-right:8px;
+}
+
+/* ===========================
+   Progress Bar
+=========================== */
+
+.progress{
+    height:10px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#ececec;
+}
+
+.progress-bar{
+    font-size:11px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ===========================
+   Skills
+=========================== */
+
+.skill-badge{
+
+    display:inline-block;
+
+    margin:6px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:#eef2ff;
+
+    color:#4f46e5;
+
+    font-weight:600;
+
+    font-size:14px;
+
+    transition:.3s;
+
+}
+
+.skill-badge:hover{
+
+    background:#4f46e5;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+   Form
+=========================== */
+
+.form-control{
+
+    border-radius:12px;
+
+    border:1px solid #d7dce5;
+
+    padding:12px;
+
+    transition:.25s;
+
+}
+
+.form-control:focus{
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 .2rem rgba(79,70,229,.15);
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-primary{
+
+    background:#4f46e5;
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:#4338ca;
+
+    transform:translateY(-2px);
+
+}
+
+.btn-success:hover,
+.btn-outline-dark:hover,
+.btn-outline-primary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+   Labels
+=========================== */
+
+.form-label{
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+/* ===========================
+   Resume Status
+=========================== */
+
+.text-success{
+
+    font-weight:600;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+    .avatar-lg{
+
+        width:140px;
+
+        height:140px;
+
+    }
+
+    .card{
+
+        margin-bottom:20px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .card-body{
+
+        padding:22px;
+
+    }
+
+    h2{
+
+        font-size:28px;
+
+    }
+
+    .btn-lg{
+
+        width:100%;
+
+    }
+
+}

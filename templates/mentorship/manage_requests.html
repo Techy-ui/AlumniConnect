@@ -1,0 +1,135 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Mentorship Requests{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/manage_requests.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h2>Mentorship Requests</h2>
+
+    <p>Review and respond to students requesting mentorship.</p>
+
+</div>
+
+{% if requests %}
+
+<div class="request-grid">
+
+    {% for request in requests %}
+
+    <div class="request-card">
+
+        <div class="student-header">
+
+            <div class="avatar">
+
+                {% if request.profile_photo %}
+                    <img src="{{ url_for('static', filename=request.profile_photo) }}">
+                {% else %}
+                    <i class="bi bi-person-circle"></i>
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <h4>{{ request.full_name }}</h4>
+
+                <p>{{ request.department }}</p>
+
+                <p>Year {{ request.current_year }}</p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h6>Subject</h6>
+
+        <p>{{ request.subject }}</p>
+
+        <h6>Message</h6>
+
+        <p>{{ request.message }}</p>
+
+        <h6>Skills</h6>
+
+        <p>{{ request.skills or "Not provided" }}</p>
+
+        <h6>Status</h6>
+
+        {% if request.status=="Pending" %}
+
+            <span class="badge bg-warning text-dark">
+                Pending
+            </span>
+
+        {% elif request.status=="Accepted" %}
+
+            <span class="badge bg-success">
+                Accepted
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-danger">
+                Rejected
+            </span>
+
+        {% endif %}
+
+        {% if request.status=="Pending" %}
+
+        <div class="actions">
+
+            <a
+                href="{{ url_for('mentorship.respond_request', request_id=request.request_id) }}"
+                class="btn btn-success">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Accept
+
+            </a>
+
+            <a
+                href="{{ url_for('mentorship.reject_request', request_id=request.request_id) }}"
+                class="btn btn-danger">
+
+                <i class="bi bi-x-circle-fill"></i>
+
+                Reject
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+
+    <i class="bi bi-person-x-fill"></i>
+
+    <h3>No mentorship requests</h3>
+
+    <p>You haven't received any mentorship requests yet.</p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+.mentor-profile{
+    max-width:900px;
+    margin:auto;
+}
+
+.profile-card{
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.profile-header{
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
+
+.profile-avatar i{
+    font-size:120px;
+    color:#2563eb;
+}
+
+.profile-details h2{
+    margin-bottom:8px;
+    font-weight:700;
+}
+
+.profile-details h5{
+    color:#6b7280;
+    margin-bottom:15px;
+}
+
+.profile-details p{
+    margin:8px 0;
+    color:#444;
+}
+
+.info-section{
+    margin-top:30px;
+}
+
+.info-section h4{
+    margin-bottom:15px;
+    color:#2563eb;
+}
+
+.skills-box{
+    background:#f5f7fb;
+    padding:18px;
+    border-radius:10px;
+    line-height:1.7;
+}
+
+.social-links{
+    margin-top:30px;
+    display:flex;
+    gap:15px;
+}
+
+.request-btn{
+    margin-top:35px;
+    text-align:center;
+}
+
+.request-btn .btn{
+    padding:12px 30px;
+}
+
+@media(max-width:768px){
+
+.profile-header{
+    flex-direction:column;
+    text-align:center;
+}
+
+.social-links{
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+}

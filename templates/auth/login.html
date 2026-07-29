@@ -1,0 +1,111 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-center mb-4">
+
+                        Welcome Back
+
+                    </h2>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                                    {{ message }}
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert">
+                                    </button>
+
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label>Email</label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Password</label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label>Login As</label>
+
+                            <select
+                                name="role"
+                                class="form-select">
+
+                                <option value="student">
+
+                                    Student
+
+                                </option>
+
+                                <option value="alumni">
+
+                                    Alumni
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary w-100">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

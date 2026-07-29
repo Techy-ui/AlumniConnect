@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}AlumniConnect{% endblock %}
+    </title>
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Dashboard CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+
+            <a href="/" class="logo">
+
+                🎓 AlumniConnect
+
+            </a>
+
+        </div>
+
+        <ul class="sidebar-menu">
+
+        <!-- Dashboard -->
+        {% if session.get("role") == "student" %}
+
+        <a href="{{ url_for('student.student_dashboard') }}"
+        class="nav-link">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+        </a>
+
+        {% elif session.get("role") == "alumni" %}
+
+        <a href="{{ url_for('alumni.alumni_dashboard') }}"
+        class="nav-link">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+        </a>
+
+        {% endif %}
+
+        {% if session.get("role") == "student" %}
+
+        <!-- Student Menu -->
+
+        <li>
+            <a class="dropdown-item" href="/students/profile">
+                <i class="bi bi-person"></i>
+                My Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="/alumni/explore_alumni">
+                <i class="bi bi-people-fill"></i>
+                <span>Explore Alumni</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('jobs.browse_jobs') }}">
+                <i class="bi bi-briefcase-fill"></i>
+                <span>Browse Jobs</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url_for('jobs.my_applications') }}" class="nav-link">
+                <i class="bi bi-file-earmark-text-fill"></i>
+                <span>My Applications</span>
+            </a>
+        </li>
+        <!-- Student Mentorship -->
+        <li>
+            <a href="{{ url_for('mentorship.browse_mentors') }}">
+                <i class="bi bi-person-hearts"></i>
+                <span>Mentorship</span>
+            </a>
+        </li>
+
+        <li>
+
+            <a href="{{ url_for('mentorship.my_mentorships') }}">
+
+                <i class="bi bi-list-check"></i>
+
+                <span>My Mentorships</span>
+
+            </a>
+
+        </li>
+
+        <li>
+        <a href="{{ url_for('student.student_analytics') }}">
+            <i class="bi bi-bar-chart-fill"></i>
+            Analytics
+        </a>
+        </li>
+
+        {% elif session.get("role") == "alumni" %}
+
+        <!-- Alumni Menu -->
+
+        <li>
+            <a href="{{ url_for('jobs.my_jobs') }}">
+                <i class="bi bi-briefcase-fill"></i>
+                <span>My Jobs</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('jobs.post_job') }}">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Post Job</span>
+            </a>
+        </li>
+
+        <!-- Alumni Mentorship -->
+        <li>
+            <a href="{{ url_for('mentorship.manage_requests') }}">
+                <i class="bi bi-person-check-fill"></i>
+                <span>Mentorship Requests</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a href="{{ url_for('jobs.my_jobs') }}" class="nav-link">
+
+                <i class="bi bi-briefcase-fill"></i>
+
+                <span>My Jobs</span>
+
+            </a>
+
+        </li>
+
+        <li>
+            <a href="/alumni/explore_alumni">
+                <i class="bi bi-people-fill"></i>
+                <span>Alumni Network</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('alumni.analytics') }}">
+                <i class="bi bi-bar-chart-fill"></i>
+                <span>Analytics</span>
+            </a>
+        </li>
+
+        {% endif %}
+
+        <!-- Common -->
+
+        <li>
+            <a href="/notifications">
+                <i class="bi bi-bell-fill"></i>
+                <span>Notifications</span>
+
+                {% if unread_count %}
+                    <span class="badge rounded-pill bg-danger">
+                        {{ unread_count }}
+                    </span>
+                {% endif %}
+            </a>
+        </li>
+
+        
+
+        <li>
+            <a href="/settings">
+                <i class="bi bi-gear-fill"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+
+    </ul>
+
+        <div class="sidebar-footer">
+
+            <a href="/logout">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main-content">
+
+        <!-- Topbar -->
+
+        <nav class="topbar">
+
+            <button
+                class="menu-toggle"
+                id="menuToggle">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+            <div class="topbar-search">
+
+                {% if session.get("role") == "student" %}
+
+                <input
+                    type="text"
+                    placeholder="Search Alumni, Jobs..."
+                    class="form-control">
+
+                {% else %}
+
+                <input
+                    type="text"
+                    placeholder="Search Jobs, Applicants..."
+                    class="form-control">
+
+                {% endif %}
+
+            </div>
+
+            <div class="topbar-right">
+
+                <a href="/notifications"
+                   class="notification-btn">
+
+                    <i class="bi bi-bell-fill"></i>
+
+                    {% if unread_count %}
+
+                    <span class="notification-badge">
+
+                        {{ unread_count }}
+
+                    </span>
+
+                    {% endif %}
+
+                </a>
+
+                <div class="dropdown">
+
+                    <button
+                        class="btn profile-btn dropdown-toggle"
+                        data-bs-toggle="dropdown">
+
+                                                {% if session.get("profile_photo") %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/profile_photos/' + session.get('profile_photo')) }}"
+                            class="rounded-circle me-2"
+                            style="
+                                width:40px;
+                                height:40px;
+                                object-fit:cover;
+                            ">
+
+                        {% else %}
+
+                        <i class="bi bi-person-circle fs-4 me-2"></i>
+
+                        {% endif %}
+
+                        <span>
+
+                            {{ session.get("full_name","User") }}
+
+                        </span>
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+
+                        <li>
+
+                            <h6 class="dropdown-header">
+
+                                Welcome,
+                                {{ session.get("full_name","User") }}
+
+                            </h6>
+
+                        </li>
+
+                        <li>
+
+                            {% if session.get("role") == "student" %}
+
+                            <a class="dropdown-item"
+                            href="{{ url_for('student.student_profile') }}">
+
+                            {% else %}
+
+                            <a class="dropdown-item"
+                            href="{{ url_for('alumni.alumni_profile') }}">
+
+                            {% endif %}
+
+                                <i class="bi bi-person"></i>
+
+                                My Profile
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="/notifications">
+
+                                <i class="bi bi-bell"></i>
+
+                                Notifications
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item"
+                               href="/settings">
+
+                                <i class="bi bi-gear"></i>
+
+                                Settings
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <hr class="dropdown-divider">
+
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-item text-danger"
+                               href="/logout">
+
+                                <i class="bi bi-box-arrow-right"></i>
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <!-- Page Content -->
+
+        <div class="content-wrapper">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                            {{ message }}
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                            </button>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+        <!-- Footer -->
+
+        <footer class="dashboard-footer">
+
+            <div class="text-center">
+
+                © 2026 AlumniConnect • Built with Flask, Bootstrap & ShaktiDB
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+{% if unread_count > 0 and session.get("show_notification_toast") %}
+
+<div
+    class="toast"
+    id="notificationToast"
+    role="alert">
+
+    <div class="toast-header">
+
+        <i class="bi bi-bell-fill text-warning me-2"></i>
+
+        <strong class="me-auto">
+
+            AlumniConnect
+
+        </strong>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast">
+        </button>
+
+    </div>
+
+    <div class="toast-body">
+
+        🔔 You have
+
+        <strong>
+
+            {{ unread_count }}
+
+        </strong>
+
+        unread notification{{ '' if unread_count == 1 else 's' }}.
+
+        <br><br>
+
+        <a
+            href="/notifications"
+            class="btn btn-primary btn-sm">
+
+            View Notifications
+
+        </a>
+
+    </div>
+
+</div>
+
+    <script>
+
+    window.addEventListener("load", function(){
+
+        const toastElement =
+            document.getElementById("notificationToast");
+
+        const toast =
+            new bootstrap.Toast(toastElement,{
+
+                delay:5000
+
+            });
+
+        toast.show();
+
+    });
+
+    </script>
+
+    {% set _ = session.pop("show_notification_toast", None) %}
+
+    {% endif %}
+
+<!-- Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Dashboard JS -->
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block extra_js %}
+{% endblock %}
+
+</body>
+
+</html>
