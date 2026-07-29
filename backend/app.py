@@ -18,6 +18,10 @@ from routes.jobs import jobs_bp
 from routes.notifications import notifications_bp
 from routes.settings import settings_bp
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
