@@ -53,7 +53,10 @@ app.register_blueprint(notifications_bp)
 app.register_blueprint(settings_bp)
 
 
-app.secret_key = "alumniconnect_secret_key"
+app.secret_key = os.getenv(
+    "SECRET_KEY",
+    "alumniconnect_local_secret_key"
+)
 
 @app.route("/")
 def home():
